@@ -5,13 +5,14 @@ namespace EmployeeManager.Domain.Entities
 {
     public class Employee
     {
-        private String FirstName { get; set; }
-        private String LastName { get; set; }
-        private String Email { get; set; }
-        private String DocumentType { get; set; }
-        private String DocumentNumber { get; set; }
-        private Position Position { get; set; }
-        private String Password { get; set; }
+        private string Id { get; set; }
+        public String FirstName { get; private set; }
+        public String LastName { get; private set; }
+        public String Email { get; private set; }
+        public String DocumentType { get; private set; }
+        public String DocumentNumber { get; private set; }
+        public Position Position { get; private set; }
+        public String Password { get; private set; }
 
         private Regex PasswordValidator = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$");
         private Regex MailValidator = new Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$");
@@ -61,6 +62,16 @@ namespace EmployeeManager.Domain.Entities
             DocumentType = documentType;
             DocumentNumber = documentNumber;
             Password = password;
+        }
+
+        private void setId(string id)
+        {
+            this.Id = id;
+        }
+
+        public string GetId()
+        {
+            return this.Id;
         }
 
     }
