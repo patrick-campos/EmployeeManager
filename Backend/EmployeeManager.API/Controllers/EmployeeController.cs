@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EmployeeManager.Domain.DTO.Requests;
+using EmployeeManager.Domain.DTO.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManager.API.Controllers
@@ -10,8 +12,8 @@ namespace EmployeeManager.API.Controllers
         [Route("create")]
         [HttpPost]
         [Consumes("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        public IActionResult CreateEmployee()
+        [ProducesResponseType(typeof(EmployeeResponseDTO), StatusCodes.Status201Created)]
+        public IActionResult CreateEmployee(EmployeeRequestDTO requestBody)
         {
             try
             {
