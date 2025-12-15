@@ -17,8 +17,10 @@ namespace EmployeeManager.Domain.Dto
 
         public EmployeeDto(Employee employee)
         {
-            this.Id = employee.Id;
-            this.Name = employee.
+            this.Id = employee.GetId();
+            this.Name = $"{employee.FirstName} {employee.LastName}";
+            this.Email = employee.Email;
+            this.Position = employee.Position.ToString();
         }
     }
 }
