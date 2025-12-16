@@ -1,3 +1,5 @@
+import { SideMenu } from "../side-menu";
+import './style.scss';
 
 interface IBaseLayoutProps {
   children: React.JSX.Element;
@@ -5,9 +7,10 @@ interface IBaseLayoutProps {
 
 export default function BaseLayout(props:IBaseLayoutProps): React.JSX.Element {
   return(
-     <div className="base-layout">
-      <main className="base-layout__content">
-        <div className="base-layout__inner">
+     <div className="baselayout">
+      <SideMenu/>
+      <main className="baselayout__content">
+        <div className="baselayout__inner">
           {props.children}
         </div>
       </main>

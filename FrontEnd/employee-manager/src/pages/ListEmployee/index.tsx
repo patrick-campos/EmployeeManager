@@ -18,7 +18,7 @@ export default function ListEmployee() {
 
     return (
         <>
-            <Header title="Employee List" description='See every employee registered' />
+            <Header title="Employee List" description='Edit or exclude employess registered' />
             <Table Columns={columns} Items={items} />
         </>
     )

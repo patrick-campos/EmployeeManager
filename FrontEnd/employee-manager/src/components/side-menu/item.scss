@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+
+
+.sidemenu-item {
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    color: hsl(var(--sidemenu-foreground) / 0.7);
+
+    &:hover {
+      background-color: hsl(var(--sidemenu-accent));
+      color: hsl(var(--sidemenu-foreground));
+    }
+
+    &--active {
+      background-color: hsl(var(--sidemenu-primary));
+      color: hsl(var(--sidemenu-primary-foreground));
+
+      .sidemenu-item__icon {
+        color: hsl(var(--sidemenu-primary-foreground));
+      }
+    }
+  }
+
+  &__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.2s ease;
+
+    .sidemenu-item__link:hover & {
+      transform: scale(1.1);
+    }
+  }
+
+  &__title {
+    font-weight: 500;
+  }
+}

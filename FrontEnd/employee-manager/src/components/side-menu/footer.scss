@@ -1,0 +1,21 @@
+.sidemenu-footer {
+  padding: 1rem;
+  border-top: 1px solid hsl(var(--sidemenu-border));
+
+  &__content {
+    background-color: hsl(var(--sidemenu-accent));
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    color: hsl(var(--sidemenu-foreground) / 0.8);
+  }
+
+  &__version {
+    font-size: 0.75rem;
+    color: hsl(var(--sidemenu-foreground) / 0.5);
+    margin-top: 0.25rem;
+  }
+}

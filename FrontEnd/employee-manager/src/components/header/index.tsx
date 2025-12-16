@@ -6,9 +6,9 @@ interface PageHeaderProps {
 export default function Header({ title, description }: PageHeaderProps) {
   return (
     <div className="mb-8 animate-fade-in">
-      <h1 className="text-3xl font-bold text-foreground">{title}</h1>
+      <h1 className="text-3xl font-bold text-foreground text-left">{title}</h1>
       {description && (
-        <p className="mt-2 text-muted-foreground">{description}</p>
+        <p className="mt-2 text-muted-foreground text-left">{description}</p>
       )}
     </div>
   );
