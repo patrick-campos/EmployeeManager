@@ -1,0 +1,15 @@
+@use '../../styles/variables' as *;
+
+.base-layout {
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+
+  &__content {
+    margin-left: 16rem;
+    min-height: 100vh;
+  }
+
+  &__inner {
+    padding: $spacing-xl;
+  }
+}
