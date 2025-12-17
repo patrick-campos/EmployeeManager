@@ -7,10 +7,44 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}               
       POSTGRES_USER: ${POSTGRES_USER_MASTER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_MASTER}
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ../Backend
+      dockerfile: ../Infra/Backend/.dockerfile
+    container_name: backend_api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: >
+        Server=host.docker.internal;
+        Database=${POSTGRES_DB};
+        User Id=${APP_DB_USER};
+        Password=${APP_DB_PASSWORD};
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ../Frontend/employee-manager
+      dockerfile: ../../Infra/FrontEnd/.dockerfile
+    container_name: frontend_app
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
 
 volumes:
   pgdata:

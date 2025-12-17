@@ -10,29 +10,48 @@ CREATE USER ${APP_DB_USER} WITH PASSWORD '${APP_DB_PASSWORD}';
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Criação da tabela Position
-CREATE TABLE IF NOT EXISTS Position (
+CREATE TABLE IF NOT EXISTS position (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(150) NOT NULL
 );
 
--- Criação da tabela DocumentType
-CREATE TABLE IF NOT EXISTS DocumentType (
+CREATE TABLE IF NOT EXISTS documentType (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(150) NOT NULL
 );
 
--- Criação da tabela Employee
-CREATE TABLE IF NOT EXISTS Employee (
+
+CREATE TABLE IF NOT EXISTS employee (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
     mail VARCHAR(150) UNIQUE NOT NULL,
     documentnumber VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    position_id UUID REFERENCES Position(id) ON DELETE SET NULL,
-    document_type_id UUID REFERENCES DocumentType(id) ON DELETE SET NULL
+    position_id UUID NOT NULL REFERENCES position(id) ON DELETE RESTRICT,
+    document_type_id UUID NOT NULL REFERENCES documentType(id) ON DELETE RESTRICT
 );
+
+INSERT INTO position (name)
+SELECT 'director'
+WHERE NOT EXISTS (SELECT 1 FROM position WHERE name = 'director');
+
+INSERT INTO position (name)
+SELECT 'normal'
+WHERE NOT EXISTS (SELECT 1 FROM position WHERE name = 'normal');
+
+INSERT INTO position (name)
+SELECT 'manager'
+WHERE NOT EXISTS (SELECT 1 FROM position WHERE name = 'manager');
+
+-- DocumentType
+INSERT INTO documenttype (name)
+SELECT 'cpf'
+WHERE NOT EXISTS (SELECT 1 FROM documenttype WHERE name = 'cpf');
+
+INSERT INTO documenttype (name)
+SELECT 'identification number'
+WHERE NOT EXISTS (SELECT 1 FROM documenttype WHERE name = 'identification number');
 
 -- Segurança
 REVOKE ALL ON DATABASE ${POSTGRES_DB} FROM PUBLIC;
