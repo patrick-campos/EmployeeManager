@@ -1,17 +1,19 @@
-﻿using EmployeeManager.Domain.Enums;
+﻿using EmployeeManager.Domain.DTO.Requests;
+using EmployeeManager.Domain.Enums;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace EmployeeManager.Domain.Entities
 {
     public class Employee
     {
-        private string Id { get; set; }
+        private Guid Id { get; set; }
         public String FirstName { get; private set; }
         public String LastName { get; private set; }
-        public String Email { get; private set; }
+        public String Mail { get; private set; }
         public String DocumentType { get; private set; }
         public String DocumentNumber { get; private set; }
-        public Position Position { get; private set; }
+        public String PositionName { get; private set; }
         public String Password { get; private set; }
 
         private Regex PasswordValidator = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{12,}$");
@@ -46,30 +48,64 @@ namespace EmployeeManager.Domain.Entities
             return positionActualUser > PositionNewUser;
         }
 
+        public bool CheckIfPositionOfCurrentUserIsAboveThanUserHowWillBeModified(string currentUserPosition, string positionOfUserModified)
+        {
+            Position.TryParse(currentUserPosition, out Position PositionCurrentUser);
+
+            return CheckIfUserCanCreateAnotherUserWithThisLevel(PositionCurrentUser, positionOfUserModified);
+        }
+
+        public Employee(Guid id, String firstname, String lastname, String mail, String documentnumber, String password, Guid position_id, String positionname, String documenttype)
+        {
+            this.Id = id;
+            this.FirstName = firstname;
+            this.LastName = lastname;
+            this.Mail = mail;
+            this.DocumentType = documenttype.ToLower();
+            this.DocumentNumber = documentnumber;
+            this.Password = password;
+            this.PositionName = positionname;
+        }
+
+        public Employee(EmployeeRequestDTO newUser): this(newUser.Name, newUser.LastName, newUser.Mail, newUser.DocumentTypeName, newUser.DocumentNumber, newUser.Password, newUser.PositionName, Position.director)
+        {
+        }
+
         public Employee(string firstName, string lastName, string mail, string documentType, string documentNumber, string password, string positionOfNewUser, Position positionActualUser)
         {
             Dictionary<string, string> errorsValidation = ValidateFieldsWithInvalidValue(firstName, lastName, mail, documentType, documentNumber, password, positionOfNewUser);
 
             if (errorsValidation.Count > 0)
-                throw new ArgumentException($"One or more arguments has invalid value: {errorsValidation.Select(x=>x.Key)}");
+                throw new ArgumentException($"One or more arguments has invalid value: {string.Join("; ", errorsValidation.Select(x => $"{x.Key}: {x.Value}"))}");
+
 
             if (!CheckIfUserCanCreateAnotherUserWithThisLevel(positionActualUser, positionOfNewUser))
-                throw new UnauthorizedAccessException("User cannot create another user with a higher leval than yourself");
+                throw new UnauthorizedAccessException("You can't access or create another employer with equal or higher level than yourself");
 
             FirstName = firstName;
             LastName = lastName;
-            Email = mail;
-            DocumentType = documentType;
+            Mail = mail;
+            DocumentType = documentType.ToLower();
             DocumentNumber = documentNumber;
             Password = password;
+            PositionName = positionOfNewUser.ToLower();
+        }
+
+        public void update(EmployeeRequestDTO emplWithModification)
+        {
+            this.Mail = emplWithModification.Mail;
+            this.FirstName = emplWithModification.Name;
+            this.LastName = emplWithModification.LastName;
+            this.PositionName = emplWithModification.PositionName;
         }
 
         private void setId(string id)
         {
-            this.Id = id;
+            Guid.TryParse(id, out Guid idParsed);
+            this.Id = idParsed;
         }
 
-        public string GetId()
+        public Guid GetId()
         {
             return this.Id;
         }
