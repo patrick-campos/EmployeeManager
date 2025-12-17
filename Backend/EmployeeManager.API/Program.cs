@@ -1,3 +1,8 @@
+using EmployeeManager.Application.Abstractions.UseCases;
+using EmployeeManager.Application.UseCases;
+using EmployeeManager.Domain.Entities;
+using EmployeeManager.Domain.Interfaces;
+using EmployeeManager.Infrastructure.Repositories;
 using Npgsql;
 using System.Data;
 
@@ -16,7 +21,26 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     return new NpgsqlConnection(connectionString);
 });
 
+builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+builder.Services.AddScoped<ICreateEmployeeUseCase, CreateEmployeeUseCase>();
+builder.Services.AddScoped<IDeleteEmployeeUseCase, DeleteEmployeeUseCase>();
+builder.Services.AddScoped<IUpdateEmployeeUseCase, UpdateEmployeeUseCase>();
+builder.Services.AddScoped<IGetEmployeeUseCase, GetEmployeeUseCase>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // URL do frontend
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+
+// Configure to listen on all interfaces in Docker
+app.Urls.Add("http://0.0.0.0:8080");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,9 +49,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Skip HTTPS redirection in Docker environment
+if (!app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
+
+app.UseCors("AllowFrontend");
 
 app.MapControllers();
 

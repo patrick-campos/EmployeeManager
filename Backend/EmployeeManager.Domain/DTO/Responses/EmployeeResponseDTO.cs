@@ -12,15 +12,21 @@ namespace EmployeeManager.Domain.DTO.Responses
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
+        public string Lastname { get; private set; }
         public string Email { get; private set; }
         public string Position { get; private set; }
+        public string DocumentNumber { get; set; }
+        public string DocumentType { get; set; }
 
-        public EmployeeResponseDTO(Employee employee)
+        public EmployeeResponseDTO(Employee employee, string? id = null)
         {
-            Id = employee.GetId();
-            Name = $"{employee.FirstName} {employee.LastName}";
-            Email = employee.Email;
-            Position = employee.Position.ToString();
+            Id = id ?? employee.GetId().ToString();
+            Name = employee.FirstName;
+            Lastname = employee.LastName;
+            Email = employee.Mail;
+            Position = employee.PositionName;
+            DocumentNumber = employee.DocumentNumber;
+            DocumentType = employee.DocumentType;
         }
     }
 }
