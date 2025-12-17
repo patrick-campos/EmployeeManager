@@ -1,0 +1,18 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixin' as *;
+
+.sidemenu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 16rem;
+  background-color: hsl(var(--sidemenu-background));
+  @include flex-column;
+  z-index: 50;
+
+  &__header {
+    padding: $spacing-lg;
+    border-bottom: 1px solid hsl(var(--sidemenu-border));
+  }
+}

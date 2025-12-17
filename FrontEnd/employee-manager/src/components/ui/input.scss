@@ -1,0 +1,20 @@
+.selectForForm{
+    position: absolute; 
+    border: 0px; 
+    width: 1px; 
+    height: 1px; 
+    padding: 0px; 
+    margin: -1px; 
+    overflow: hidden; 
+    clip: rect(0px, 0px, 0px, 0px); 
+    white-space: nowrap; 
+    overflow-wrap: normal;
+}
+
+.errorBorder{
+    border-color: #ff2800 !important;
+}
+
+.errortext{
+    color: #ff2800 !important;
+}

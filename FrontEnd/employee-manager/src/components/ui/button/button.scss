@@ -1,0 +1,7 @@
+.submitButton{
+    background-color: hsl(var(--primary));
+
+    &:hover{
+        cursor: pointer;
+    }
+}

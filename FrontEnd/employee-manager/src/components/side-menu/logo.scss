@@ -1,0 +1,32 @@
+.sidemenu-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  &__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: hsl(var(--sidemenu-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: hsl(var(--sidemenu-primary-foreground));
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: hsl(var(--sidemenu-foreground));
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: hsl(var(--sidemenu-foreground) / 0.6);
+  }
+}
