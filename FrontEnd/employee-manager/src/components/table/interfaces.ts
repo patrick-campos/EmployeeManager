@@ -1,3 +1,6 @@
+import type { Employee } from "../../entites/employee";
+import type { ListItemMap } from "../../entites/map/ListItemMap";
+
 export interface IColumnsMapper {
     title: string;
     key: string;
@@ -5,9 +8,9 @@ export interface IColumnsMapper {
 }
 
 export interface ITableHeaderProps {
-    Columns: Array<IColumnsMapper>;
+    Columns: Array<ListItemMap>;
 }
 
 export interface ITableProps extends ITableHeaderProps{
-    Items: Array<Record<string, any>>;
+    Items: Array<Employee>;
 }

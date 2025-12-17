@@ -9,8 +9,7 @@ export function SideMenu(): React.JSX.Element {
 
     const navItems: SideMenuItemProps[] = [
         { title: 'List Employees', href: '/', icon: List },
-        { title: 'Cadastrar', href: '/cadastrar', icon: UserPlus },
-        { title: 'Colaboradores', href: '/colaboradores', icon: Users },
+        { title: 'Register', href: '/employee', icon: UserPlus }
     ];
 
     return (

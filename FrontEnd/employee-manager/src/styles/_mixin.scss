@@ -28,7 +28,6 @@
 // Card style mixin
 @mixin card {
   background-color: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
 }
@@ -59,4 +58,8 @@
   @media (min-width: $breakpoint-lg) {
     @content;
   }
+}
+
+.element-card {
+  @include card;
 }

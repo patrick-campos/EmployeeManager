@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -41,4 +39,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.errorBorder{
+    border-color: #ff2800 !important;
+}
+
+.errortext{
+    color: #ff2800 !important;
 }
